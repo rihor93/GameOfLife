@@ -1,0 +1,33 @@
+#container {
+	background: #000;
+	width: 840px;
+	height: 600px;
+	margin: 0px auto;
+	border: 9px solid #333;
+	border-radius: 9px;
+	box-shadow: 0px 16px 30px 0px #200;
+}
+.cell {
+	font-size: 9px;
+	width: 11px;
+	height: 11px;
+	border-top: 1px solid #333;
+	border-left: 1px solid #222;
+	margin: 0px;
+	float: left;
+  	border-radius: none;
+}
+
+.cell:nth-child(50n + 1) {
+	clear: both;
+}
+
+.alive {
+	background: #fbb;
+}
+.old {
+	background: #e44;
+}
+.dead {
+	background: #000;
+}
