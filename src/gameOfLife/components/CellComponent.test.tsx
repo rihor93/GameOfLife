@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { CellComponent, CellStatus } from './CellComponent';
 import renderer from 'react-test-renderer';
+import userEvent from '@testing-library/user-event';
 
 describe('CellComponent tests', () => {
     it('show id on screen', () => {
@@ -41,6 +42,24 @@ describe('CellComponent tests', () => {
         const allElements = container.getElementsByClassName("cell old")
 
         expect(allElements).toHaveLength(1);
+    });
+
+    it('click and update state alive to dead', async () => {
+        let cellData = { id: 2, status: CellStatus.Alive };
+        const { getByTestId, container } = render(<CellComponent value={cellData} />);
+        
+        let cellComponent = getByTestId('cellcomponent')
+        await userEvent.click(cellComponent);
+        expect(cellComponent).toHaveClass('dead');
+    });
+
+    it('click and update state dead to alive', async () => {
+        let cellData = { id: 2, status: CellStatus.Dead };
+        const { getByTestId, container } = render(<CellComponent value={cellData} />);
+        
+        let cellComponent = getByTestId('cellcomponent')
+        await userEvent.click(cellComponent);
+        expect(cellComponent).toHaveClass('alive');
     });
 
 });

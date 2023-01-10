@@ -1,7 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { BoardComponent } from './BoardComponent';
-import { CellComponent, CellStatus } from './CellComponent';
 
 describe('BoardComponent tests', () => {
     it('show cell component with id', () => {
