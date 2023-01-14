@@ -3,8 +3,8 @@
 // Нужно заменить FIXME на тип который вычисляется на освове OrderState
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type FIXME2 = "initial" | "inWork" | "buyingSupplies" | "producing" | "fullfilled";
-type FIXME =  Array<FIXME2>;
+//type FIXME2 = "initial" | "inWork" | "buyingSupplies" | "producing" | "fullfilled";
+type FIXME =  Array<OrderState>;
 
 const orderStates = [
   "initial",
