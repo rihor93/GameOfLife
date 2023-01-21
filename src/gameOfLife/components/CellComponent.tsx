@@ -30,7 +30,7 @@ PropsWithChildren<{ value: Cell}>
      */
     function updateCell(): void{
 
-        setCellState({id: cellState.id, status: cellState.status == CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive});
+        setCellState((previewState) => ({id: previewState.id, status: previewState.status == CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive}));
     }
 
     return (
