@@ -29,7 +29,8 @@ export class BoardComponentClasses extends Component<Props, State> {
     }
 
     componentDidMount = () => {
-        console.log("componentDidMount BoardComponentClasses", this);
+        //console.log("componentDidMount BoardComponentClasses", this);
+        window.addEventListener("click", this.windowClick);
         getServerData(false)
             .then((board) => {
                 //console.log('getServerData then')
@@ -47,14 +48,17 @@ export class BoardComponentClasses extends Component<Props, State> {
     }
 
     componentWillUnmount = () => {
-        console.log("componentWillUnmount BoardComponentClasses", this);
+        //console.log("componentWillUnmount BoardComponentClasses", this);
         //this.setState({ boardData: [] });
         clearTimeout(this.timer);
         this.timer = null;
+        window.removeEventListener("click", this.windowClick);
     }
 
+    windowClick = (e: MouseEvent) => console.log(`x: ${e.pageX}, y: ${e.pageY}`);
+
     tick = () => {
-        console.log('tick');
+        //console.log('tick');
         let newBoard = this.runGeneration();
         //const updatedBoardData = JSON.parse(JSON.stringify(newBoard));
         this.setState((v) => ({ boardData: newBoard, generation: v.generation + 1 }))
@@ -66,7 +70,7 @@ export class BoardComponentClasses extends Component<Props, State> {
         this.state.boardData[id].status = this.state.boardData[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
         const updatedBoardData = JSON.parse(JSON.stringify(this.state.boardData));
         this.setState((state) => ({ ...state, boardData: updatedBoardData }))
-        console.log('onClick')
+        //console.log('onClick')
     }
 
     /*shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -89,12 +93,12 @@ export class BoardComponentClasses extends Component<Props, State> {
         const { boardData, error, errorText, generation, loading, endWork } = this.state;
         //console.log('boardData render', this.state.boardData)
         return (
-            <div>
+            <div data-testid="boardcomponent">
                 {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
                     <div>
                         <div>{generation}</div>
                         {/*<button onClick={this.tick}>Tick</button>*/}
-                        <div data-testid="boardcomponent">
+                        <div >
                             {error ? <div>{errorText}</div> : boardData.map((cell, i) => {
                                 //return <div key={i} >{cell.id + ';' + cell.status + "|"}</div>
                                 return (<CellComponentClasses key={cell.id/*cell.id + ';' + cell.status*/} onClick={() => { this.onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
