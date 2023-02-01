@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useCallback } from "react";
 import { Cell, CellComponentClasses, CellStatus } from "./CellComponentClasses";
 import { getServerData, width, heigth, cells } from "./server"
 

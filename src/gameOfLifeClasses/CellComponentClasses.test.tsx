@@ -1,10 +1,13 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { CellComponentClasses, CellStatus } from './CellComponentClasses';
 import renderer from 'react-test-renderer';
 import userEvent from '@testing-library/user-event';
 
+afterEach(cleanup)
+
 describe('CellComponent tests', () => {
     it('show id on screen', () => {
+        let cellCLick = jest.fn();
         render(<CellComponentClasses id={1} status={CellStatus.Alive} onClick={() => console.log('click')}  />);
         const allElements = screen.getAllByText('1');
 
