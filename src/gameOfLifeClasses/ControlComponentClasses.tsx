@@ -1,8 +1,10 @@
 import { Component } from "react";
 import { BoardComponentClasses } from "./BoardComponentClasses";
+import LoginCompotent from "./LoginCompotent";
 
 type State = {
-    mounted: boolean,
+    isLogin: boolean,
+    userName: string,
 };
 
 type Props = {};
@@ -12,23 +14,25 @@ export class ControlComponentClasses extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            mounted: false,
+            isLogin: false,
+            userName: '',
         }
     }
 
 
-    toggleMounted = () => {
-        this.setState((v) => ({ mounted: !v.mounted }));
+    toggleStart = (name: string) => {
+        console.log('start', name); 
+        this.setState((v) => ({ userName: name, isLogin: true }));
     }
 
     render() {
-        const { mounted } = this.state;
+        const { isLogin, userName } = this.state;
         return (
             <div data-testid="ControlComponentClasses">
-                <button onClick={this.toggleMounted} data-testid="mountbutton">
-                    {mounted ? "Размонтировать" : "Монтировать"}
-                </button>
-                {mounted && <BoardComponentClasses />}
+                {isLogin && <div>Привет, {userName}!</div>}
+                {!isLogin 
+                    ? <LoginCompotent onClick={this.toggleStart} />
+                    : <BoardComponentClasses></BoardComponentClasses>}
 
             </div>);
     }
