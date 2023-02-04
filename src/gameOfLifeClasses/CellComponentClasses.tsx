@@ -48,7 +48,7 @@ export class CellComponentClasses extends Component<Props, State> {
         //console.log("componentWillUnmount CellComponentClasses", this);
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState: State) {
+    /*shouldComponentUpdate(nextProps: Props, nextState: State) {
         //console.log('shouldComponentUpdate cell', nextProps, nextState)
         //this.setState((v) => ({ boardData: newBoard, generation: v.generation + 1 }))
         if (this.state.cell.status !== nextProps.status) {
@@ -57,7 +57,7 @@ export class CellComponentClasses extends Component<Props, State> {
         } else {
             return false;
         }
-    }
+    }*/
 
     /*componentDidUpdate(prevProps: Props, prevState: State, snapshot: any){
         console.log('componentDidUpdate cell', prevProps, prevState, this.state)

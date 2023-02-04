@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BoardComponent from "./BoardComponent";
 import { BoardComponentClasses } from "./BoardComponentClasses";
 import LoginCompotent from "./LoginCompotent";
-
+import "../gameOfLife/components/CellComponent.css"
 
 
 
@@ -20,7 +20,7 @@ const ControlComponent: React.FC = () => {
     return (
 
         <div data-testid="ControlComponentClasses">
-                {isLogin && <div>Привет123, {userName}!<button onClick={()=> {setIsLogin(false);}}>Выйти</button></div>}
+                {isLogin && <div>Привет, {userName}!<button onClick={()=> {setIsLogin(false);}}>Выйти</button></div>}
                 {!isLogin 
                     ? <LoginCompotent onClick={toggleStart} />
                     : <BoardComponent></BoardComponent>}

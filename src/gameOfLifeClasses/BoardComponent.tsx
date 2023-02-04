@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import CellComponent from "./CellComponent";
 import { Cell, CellComponentClasses, CellStatus } from "./CellComponentClasses";
 import { getServerData, getServerDataCells } from "./server";
 
 
 type TymerTypes = 'slow' | 'normal' | 'fast' | 'pause'
-let boardDataForTimer : Cell[];
+let boardDataForTimer: Cell[];
 
 const BoardComponent: React.FC = () => {
 
@@ -20,7 +21,7 @@ const BoardComponent: React.FC = () => {
     console.log('BoardComponent');
 
     const refTimer = React.useRef<NodeJS.Timeout | null>(null);
-    
+
 
     useEffect(() => {
         setLoading(true);
@@ -99,8 +100,12 @@ const BoardComponent: React.FC = () => {
         if (boardDataForTimer.length > 0) {
             let newBoard = runGeneration();
             //const updatedBoardData = JSON.parse(JSON.stringify(newBoard));
-            setBoardData(newBoard);
-            setGeneration((v)=> v= v+1);
+            if (JSON.parse(JSON.stringify(newBoard)) === JSON.parse(JSON.stringify(boardDataForTimer))) {
+                setTimerType('pause');
+            } else {
+                setBoardData(newBoard);
+                setGeneration((v) => v = v + 1);
+            }
         }
         //initTimer();
         //console.log('tick', this.state.boardData);
@@ -112,16 +117,23 @@ const BoardComponent: React.FC = () => {
             {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
                 <div>
                     <div>Генерация:{generation}</div>
-                    <div><button onClick={()=> setTimerType('pause')}>Pause</button><button onClick={()=> setTimerType('slow')}>Slow</button><button onClick={()=> setTimerType('normal')}>Normal</button><button onClick={()=> setTimerType('fast')}>Fast</button></div>
+                    <div>
+                        <button onClick={() => setTimerType('pause')}>Pause</button>
+                        <button onClick={() => setTimerType('slow')}>Slow</button>
+                        <button onClick={() => setTimerType('normal')}>Normal</button>
+                        <button onClick={() => setTimerType('fast')}>Fast</button>
+                    </div>
                     {/*<button onClick={this.tick}>Tick</button>*/}
                     <div >
-                        {error ? <div>{errorText}</div> : boardData.map((cell, i) => {
-                            //return <div key={i} >{cell.id + ';' + cell.status + "|"}</div>
-                            return (<CellComponentClasses key={cell.id + ';' + cell.status} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
-                        })}
+                        {error
+                            ? <div>{errorText}</div>
+                            : boardData.map((cell, i) => {
+                                //return <div key={i} >{cell.id + ';' + cell.status + "|"}</div>
+                                return (<CellComponent key={cell.id + ';' + cell.status} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
+                            })}
 
                     </div>
-                    
+
                 </div>
             }
         </div>
