@@ -4,7 +4,7 @@ import { getServerData, getServerDataCells } from "./server";
 
 
 type TymerTypes = 'slow' | 'normal' | 'fast' | 'pause'
-
+let boardDataForTimer : Cell[];
 
 const BoardComponent: React.FC = () => {
 
@@ -20,6 +20,7 @@ const BoardComponent: React.FC = () => {
     console.log('BoardComponent');
 
     const refTimer = React.useRef<NodeJS.Timeout | null>(null);
+    
 
     useEffect(() => {
         setLoading(true);
@@ -30,6 +31,7 @@ const BoardComponent: React.FC = () => {
                 setLoading(false)
                 console.log('setServerData', board);
                 setBoardData(board);
+                boardDataForTimer = board;
                 setTimerType('normal');
             })
             .catch((err) => {
@@ -46,6 +48,10 @@ const BoardComponent: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        boardDataForTimer = boardData;
+    }, [boardData]);
+
+    useEffect(() => {
         if (refTimer.current !== null) {
             clearInterval(refTimer.current);
         }
@@ -53,22 +59,22 @@ const BoardComponent: React.FC = () => {
             case 'normal':
 
                 refTimer.current = setInterval(() => {
-                    //tick();
-                    console.log('test timer', new Date())
+                    tick();
+                    //console.log('test timer', new Date())
                 }, 5000);
                 return;
             case 'slow':
 
                 refTimer.current = setInterval(() => {
-                    //tick();
-                    console.log('test timer', new Date())
+                    tick();
+                    //console.log('test timer', new Date())
                 }, 10000);
                 return;
             case 'fast':
 
                 refTimer.current = setInterval(() => {
-                    //tick();
-                    console.log('test timer', new Date())
+                    tick();
+                    //console.log('test timer', new Date())
                 }, 1000);
                 return;
             default:
@@ -79,27 +85,24 @@ const BoardComponent: React.FC = () => {
     }, [timerType])
 
     function onCellClick(id: number) {
-        console.log('onClick1')
-        boardData[id].status = boardData[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
-        const updatedBoardData = JSON.parse(JSON.stringify(boardData));
+        //console.log('onClick1')
+        boardDataForTimer[id].status = boardDataForTimer[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
+        const updatedBoardData = JSON.parse(JSON.stringify(boardDataForTimer));
         //this.setState((state) => ({ ...state, boardData: updatedBoardData }))
         setBoardData(updatedBoardData);
-        console.log('onClick2')
+        //console.log('onClick2')
     }
 
-    function initTimer() {
-        console.log({ boardData })
-        //timer = setTimeout(() => { tick() }, 5000);
-    }
 
     function tick() {
-        console.log('tick');
-        if (boardData.length > 0) {
+        console.log('test timer', new Date())
+        if (boardDataForTimer.length > 0) {
             let newBoard = runGeneration();
             //const updatedBoardData = JSON.parse(JSON.stringify(newBoard));
             setBoardData(newBoard);
+            setGeneration((v)=> v= v+1);
         }
-        initTimer();
+        //initTimer();
         //console.log('tick', this.state.boardData);
     }
 
@@ -131,7 +134,7 @@ const BoardComponent: React.FC = () => {
          */
     function runGeneration(): Cell[] {
 
-        const board = boardData;
+        const board = boardDataForTimer;
         let newBoard = [];
 
         //let cellStatus = null;
@@ -164,7 +167,7 @@ const BoardComponent: React.FC = () => {
      */
     function cellCheck(i: number) {
 
-        const board = boardData;
+        const board = boardDataForTimer;
         const cells = width * heigth;
 
         let count = 0;
