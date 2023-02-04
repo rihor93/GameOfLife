@@ -1,3 +1,7 @@
+import styled from "styled-components";
+import BoardComponent from "./BoardComponent";
+
+export const StyledBoardComponent = styled(BoardComponent)`
 .cell {
 	font-size: 9px;
 	width: 15px;
@@ -18,3 +22,4 @@
 .dead {
 	background: #000;
 }
+`    

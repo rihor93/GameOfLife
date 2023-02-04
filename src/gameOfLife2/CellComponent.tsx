@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import './CellComponent.css'
+//import './CellComponent.css'
 
 
 export interface Cell {
@@ -33,7 +33,7 @@ const CellComponent: React.FC<Props> = (props) => {
     }, [props.status])
 
 
-    return (<div data-testid="cellcomponent" className={status === CellStatus.Alive ? "cell alive" : (status === CellStatus.AliveOld ? "cell alive old" : "cell dead")}
+    return (<div data-testid="cellcomponent" //className={status === CellStatus.Alive ? "cell alive" : (status === CellStatus.AliveOld ? "cell alive old" : "cell dead")}
         onClick={() => props.onClick(id)}>
         {id}
     </div>);
@@ -42,3 +42,4 @@ const CellComponent: React.FC<Props> = (props) => {
 
 
 export default CellComponent;
+
