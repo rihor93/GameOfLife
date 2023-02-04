@@ -7,7 +7,7 @@ import { getServerData, getServerDataCells } from "../gameOfLifeClasses/server";
 
 type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
 type BoardTypes = 'small' | 'normal' | 'big'
-let boardDataForTimer: Cell[];
+//let boardDataForTimer: Cell[];
 
 
 const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: widthProps, heigth: heigthProps}) => {
@@ -25,6 +25,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
     console.log('BoardComponent');
 
     const refTimer = React.useRef<NodeJS.Timeout | null>(null);
+    const boardDataForTimer = React.useRef<Cell[]>(boardData);
     //const refWidth = useRef<number>(50); 
     //const refHeigth = useRef<number>(50); 
 
@@ -47,7 +48,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
                 setLoading(false)
                 console.log('setServerData', board);
                 setBoardData(board);
-                boardDataForTimer = board;
+                boardDataForTimer.current = board;
                 setTimerType('normal');
                 setBoardType('big');
             })
@@ -65,7 +66,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
     }, []);
 
     useEffect(() => {
-        boardDataForTimer = boardData;
+        boardDataForTimer.current = boardData;
     }, [boardData]);
 
     useEffect(() => {
@@ -126,8 +127,8 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
 
     function onCellClick(id: number) {
         //console.log('onClick1')
-        boardDataForTimer[id].status = boardDataForTimer[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
-        const updatedBoardData = JSON.parse(JSON.stringify(boardDataForTimer));
+        boardDataForTimer.current[id].status = boardDataForTimer.current[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
+        const updatedBoardData = JSON.parse(JSON.stringify(boardDataForTimer.current));
         //this.setState((state) => ({ ...state, boardData: updatedBoardData }))
         setBoardData(updatedBoardData);
         //console.log('onClick2')
@@ -136,7 +137,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
 
     function tick() {
         console.log('test timer', new Date())
-        if (boardDataForTimer.length > 0) {
+        if (boardDataForTimer.current.length > 0) {
             let newBoard = runGeneration();
             //const updatedBoardData = JSON.parse(JSON.stringify(newBoard));
             if (JSON.parse(JSON.stringify(newBoard)) === JSON.parse(JSON.stringify(boardDataForTimer))) {
@@ -200,7 +201,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
         console.log('runGeneration', width);
         /*const width = refWidth.current;
         const heigth = refHeigth.current;*/
-        const board = boardDataForTimer;
+        const board = boardDataForTimer.current;
         let newBoard = [];
 
         //let cellStatus = null;
@@ -235,7 +236,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
 
         /*const width = refWidth.current;
         const heigth = refHeigth.current;*/
-        const board = boardDataForTimer;
+        const board = boardDataForTimer.current;
         const cells = width * heigth;
 
         let count = 0;
