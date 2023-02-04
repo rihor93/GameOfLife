@@ -20,7 +20,8 @@ export enum CellStatus {
 export type Props = {
     id: number,
     status: CellStatus,
-    onClick: (id: number) => void
+    onClick: (id: number) => void,
+    className?: string,
 };
 
 const CellComponent: React.FC<Props> = (props) => {
@@ -33,7 +34,7 @@ const CellComponent: React.FC<Props> = (props) => {
     }, [props.status])
 
 
-    return (<div data-testid="cellcomponent" //className={status === CellStatus.Alive ? "cell alive" : (status === CellStatus.AliveOld ? "cell alive old" : "cell dead")}
+    return (<div className={props.className} data-testid="cellcomponent" /*className={status === CellStatus.Alive ? "cell alive" : (status === CellStatus.AliveOld ? "cell old" : "cell dead")}*/
         onClick={() => props.onClick(id)}>
         {id}
     </div>);

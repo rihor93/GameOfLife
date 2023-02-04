@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <ControlComponent/>
-      {/*<TextStyled />*/}
+      {/*<TextStyled fontSize={25} color={'#CD5C5C'}/>*/}
     </div>
   );
 }

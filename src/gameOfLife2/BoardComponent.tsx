@@ -1,5 +1,6 @@
 import React, { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled, { StyledComponent } from "styled-components";
+import { TextStyled } from "../Tests/styles";
 import CellComponent, { Cell, CellStatus } from "./CellComponent";
 import { getServerDataCells } from "./server";
 import { StyledCellComponent } from "./StyledCellComponent";
@@ -199,6 +200,8 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
                             : boardData.map((cell, i) => {
                                 //return <div key={i} >{cell.id + ';' + cell.status + "|"}</div>
                                 return (<StyledCellComponent key={cell.id/* + ';' + cell.status*/} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
+                                //return (<TextStyled key={cell.id/* + ';' + cell.status*/} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
+                                //return (<TextStyled color="#ADFF2F"/>)
                             })}
 
                     </StyledBoard>
