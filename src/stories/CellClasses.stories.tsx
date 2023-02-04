@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { CellComponentClasses, Cell, CellStatus } from '../gameOfLifeClasses/CellComponentClasses';
+import { CellComponentClasses, Cell, CellStatus, Props } from '../gameOfLifeClasses/CellComponentClasses';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -14,7 +14,7 @@ export default {
 } as ComponentMeta<typeof CellComponentClasses>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof CellComponentClasses> = (args) => <CellComponentClasses {...args} />;
+const Template: ComponentStory<typeof CellComponentClasses> = (args: Props) => <CellComponentClasses {...args} />;
 
 export const AliveCell = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args

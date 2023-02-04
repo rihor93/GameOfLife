@@ -1,8 +1,8 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import CellComponent from "./CellComponent";
-import { Cell, CellComponentClasses, CellStatus } from "./CellComponentClasses";
-import { getServerData, getServerDataCells } from "./server";
+import CellComponent, { Cell, CellStatus } from "./CellComponent";
+
+import { getServerData, getServerDataCells } from "../gameOfLifeClasses/server";
 
 
 type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'

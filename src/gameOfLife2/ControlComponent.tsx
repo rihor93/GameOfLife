@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import BoardComponent from "./BoardComponent";
-import { BoardComponentClasses } from "./BoardComponentClasses";
+import BoardComponent from "../gameOfLife2/BoardComponent";
 import LoginCompotent from "./LoginCompotent";
 import "../gameOfLife/components/CellComponent.css"
 import styled from "styled-components";

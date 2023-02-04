@@ -22,7 +22,7 @@ type State = {
     cell: Cell,
 };
 
-type Props = {
+export type Props = {
     id: number,
     status: CellStatus,
     onClick: (id: number) => void

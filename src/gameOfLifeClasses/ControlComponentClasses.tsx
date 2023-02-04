@@ -1,6 +1,7 @@
 import { Component } from "react";
+import LoginCompotent from "../gameOfLife2/LoginCompotent";
 import { BoardComponentClasses } from "./BoardComponentClasses";
-import LoginCompotent from "./LoginCompotent";
+
 
 type State = {
     isLogin: boolean,
