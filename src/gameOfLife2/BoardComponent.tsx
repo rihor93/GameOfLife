@@ -6,14 +6,14 @@ import { getServerData, getServerDataCells } from "../gameOfLifeClasses/server";
 
 
 type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
-type BoardTypes = 'small' | 'normal' | 'big'
+
 //let boardDataForTimer: Cell[];
 
 
 const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: widthProps, heigth: heigthProps}) => {
     const [boardStyle, setBoardStyle] = useState<CSSProperties>({});
     const [timerType, setTimerType] = useState<TimerTypes>('normal');
-    const [boardType, setBoardType] = useState<BoardTypes>('normal');
+    
     //const [width, setWidth] = useState(widthProps);
     //const [heigth, setHeigth] = useState(heigthProps);
     const [generation, setGeneration] = useState(0);
@@ -33,12 +33,14 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
         //console.log('BoardComponent123', widthProps);
         //setWidth(widthProps);
         refWidth.current = widthProps;
+        tick();
     }, [widthProps])
 
     useEffect(() => {
         //console.log('BoardComponent123', widthProps);
         //setHeigth(heigthProps);
         refHeigth.current = heigthProps;
+        tick();
     }, [heigthProps])
 
     useEffect(() => {
@@ -52,7 +54,6 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
                 setBoardData(board);
                 boardDataForTimer.current = board;
                 setTimerType('normal');
-                setBoardType('big');
             })
             .catch((err) => {
 
@@ -69,9 +70,10 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
 
     useEffect(() => {
         boardDataForTimer.current = boardData;
+        
     }, [boardData]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         const tt = timerType;
 
         setTimerType('pause');
@@ -92,7 +94,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
             default:
                 return
         }
-    }, [boardType]);
+    }, [boardType]);*/
 
     useEffect(() => {
         if (refTimer.current !== null) {
@@ -142,7 +144,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
         if (boardDataForTimer.current.length > 0) {
             let newBoard = runGeneration();
             //const updatedBoardData = JSON.parse(JSON.stringify(newBoard));
-            if (JSON.parse(JSON.stringify(newBoard)) === JSON.parse(JSON.stringify(boardDataForTimer))) {
+            if (JSON.stringify(newBoard) === JSON.stringify(boardDataForTimer.current)) {
                 setTimerType('pause');
             } else {
                 setBoardData(newBoard);
@@ -159,6 +161,8 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
 	border: 9px solid #333;
 	border-radius: 9px;
 	box-shadow: 0px 16px 30px 0px #200;
+    width:${widthProps*16}px;
+    height:${heigthProps*16}px;
     `
 
     return (
@@ -166,18 +170,14 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
         <div data-testid="boardcomponent">
             {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
                 <div>
-                    <div>Генерация:{generation}</div>
+                    <div>Генерация:{generation}({timerType})</div>
                     <div>
                         <button onClick={() => setTimerType('pause')}>Pause</button>
                         <button onClick={() => setTimerType('slow')}>Slow</button>
                         <button onClick={() => setTimerType('normal')}>Normal</button>
                         <button onClick={() => setTimerType('fast')}>Fast</button>
                     </div>
-                    <div>
-                        <button onClick={() => setBoardType('small')}>10x10</button>
-                        <button onClick={() => setBoardType('normal')}>25x25</button>
-                        <button onClick={() => setBoardType('big')}>50x50</button>
-                    </div>
+                    
                     {/*<button onClick={this.tick}>Tick</button>*/}
                     <StyledBoard>
                         {error
@@ -209,12 +209,17 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
 
         //let cellStatus = null;
         const cells = width * heigth;
+        if (board.length < cells) {
+            for (let i = board.length; i < cells;i++) {
+                board.push({id: i, status: CellStatus.Dead});
+            }
+        }
         console.log({cells})
         for (var i = 0; i < (cells); i++) {
 
             newBoard.push({ id: i, status: CellStatus.Dead });
 
-            var check = cellCheck(i);
+            var check = cellCheck(i, width, heigth, board);
 
             //keeps the living cell alive if it has 2 or 3 living neighbors
             if ((board[i].status === CellStatus.Alive || board[i].status === CellStatus.AliveOld) && (check === 3 || check === 2)) {
@@ -236,11 +241,11 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
      * @param i номер ячейки в массиве, которую проверяем
      * @returns количество живых ячеек вокруг заданной
      */
-    function cellCheck(i: number) {
+    function cellCheck(i: number, width: number, heigth: number, board: Cell[]) {
 
-        const width = refWidth.current;
+        /*const width = refWidth.current;
         const heigth = refHeigth.current;
-        const board = boardDataForTimer.current;
+        const board = boardDataForTimer.current;*/
         const cells = width * heigth;
 
 

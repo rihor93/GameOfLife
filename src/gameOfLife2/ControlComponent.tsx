@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BoardComponent from "../gameOfLife2/BoardComponent";
 import LoginCompotent from "./LoginCompotent";
 import "../gameOfLife/components/CellComponent.css"
 import styled from "styled-components";
 import { baseTheme } from "../styles/theme";
 
-
+type BoardTypes = 'small' | 'normal' | 'big'
 
 const ControlComponent: React.FC = () => {
-
+    const [boardType, setBoardType] = useState<BoardTypes>('big');
     const [isLogin, setIsLogin] = useState(false);
     const [userName, setUserName] = useState('' as string);
 
@@ -20,6 +20,26 @@ const ControlComponent: React.FC = () => {
         setUserName(name);
         setIsLogin(true);
     }
+
+    useEffect(() => {
+
+        switch (boardType) {
+            case 'small':
+                setWidth(10);
+                setHeigth(10);
+                return
+            case 'normal':
+                setWidth(25);
+                setHeigth(25);
+                return
+            case 'big':
+                setWidth(50);
+                setHeigth(50);
+                return
+            default:
+                return
+        }
+    }, [boardType]);
 
     const StyledHeader = styled.header`
   background-color: ${baseTheme.colors.headerBackgroudColor};
@@ -33,19 +53,21 @@ const ControlComponent: React.FC = () => {
     float: right;
     `
 
-    function testfunc() {
-        console.log('test')
-        
-    }   
 
     return (
 
         <div data-testid="ControlComponentClasses">
-            <button onClick={() => { setWidth((v) => v - 1); setHeigth((v) => v-1); }}>test{width.toString()}</button>
             <StyledHeader>{isLogin && <StyledHeaderContent>Привет, {userName}!<button onClick={() => { setIsLogin(false); }}>Выйти</button></StyledHeaderContent>}</StyledHeader>
             {!isLogin
                 ? <LoginCompotent onClick={toggleStart} />
-                : <BoardComponent width={width} heigth={heigth}/>}
+                : <div>
+                    <div>
+                        <button onClick={() => setBoardType('small')}>10x10</button>
+                        <button onClick={() => setBoardType('normal')}>25x25</button>
+                        <button onClick={() => setBoardType('big')}>50x50</button>
+                    </div>
+                    <BoardComponent width={width} heigth={heigth} />
+                </div>}
 
         </div>
 
