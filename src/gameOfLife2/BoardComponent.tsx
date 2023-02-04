@@ -1,8 +1,8 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import React, { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import styled, { StyledComponent } from "styled-components";
 import CellComponent, { Cell, CellStatus } from "./CellComponent";
+import { getServerDataCells } from "./server";
 
-import { getServerData, getServerDataCells } from "../gameOfLifeClasses/server";
 
 
 type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
@@ -11,7 +11,6 @@ type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
 
 
 const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: widthProps, heigth: heigthProps}) => {
-    const [boardStyle, setBoardStyle] = useState<CSSProperties>({});
     const [timerType, setTimerType] = useState<TimerTypes>('normal');
     
     //const [width, setWidth] = useState(widthProps);
@@ -28,6 +27,8 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
     const boardDataForTimer = React.useRef<Cell[]>(boardData);
     const refWidth = useRef<number>(widthProps); 
     const refHeigth = useRef<number>(heigthProps); 
+
+    const refCachedStyle= useRef<any>([]); 
 
     useEffect(() => {
         //console.log('BoardComponent123', widthProps);
@@ -50,7 +51,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
             .then((board) => {
                 //console.log('getServerData then')
                 setLoading(false)
-                console.log('setServerData', board);
+                //console.log('setServerData', board);
                 setBoardData(board);
                 boardDataForTimer.current = board;
                 setTimerType('normal');
@@ -155,6 +156,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
         //console.log('tick', this.state.boardData);
     }
 
+    //useMemo(() => ({ test: "test" }), []);
     const StyledBoard = styled.div`
     background: #000;
 	margin: 0px auto;
@@ -164,6 +166,17 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
     width:${widthProps*16}px;
     height:${heigthProps*16}px;
     `
+
+    
+
+    /*const callback = useMemo(() => styled.div`
+    background: #000;
+	margin: 0px auto;
+	border: 9px solid #333;
+	border-radius: 9px;
+	box-shadow: 0px 16px 30px 0px #200;
+    width:${widthProps*16}px;
+    height:${heigthProps*16}px;`, [widthProps, he]);*/
 
     return (
 
@@ -203,7 +216,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
         
         const width = refWidth.current;
         const heigth = refHeigth.current;
-        console.log('runGeneration', width);
+        //console.log('runGeneration', width);
         const board = boardDataForTimer.current;
         let newBoard = [];
 
@@ -214,7 +227,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
                 board.push({id: i, status: CellStatus.Dead});
             }
         }
-        console.log({cells})
+        //console.log({cells})
         for (var i = 0; i < (cells); i++) {
 
             newBoard.push({ id: i, status: CellStatus.Dead });
@@ -231,7 +244,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
             }
 
         }
-        console.log({newBoard})
+        //console.log({newBoard})
         return newBoard;
     }
 

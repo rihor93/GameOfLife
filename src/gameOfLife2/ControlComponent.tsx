@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BoardComponent from "../gameOfLife2/BoardComponent";
-import LoginCompotent from "./LoginCompotent";
-import "../gameOfLife/components/CellComponent.css"
+import LoginCompotent from "./LoginComponent";
 import styled from "styled-components";
 import { baseTheme } from "../styles/theme";
 
@@ -56,8 +55,8 @@ const ControlComponent: React.FC = () => {
 
     return (
 
-        <div data-testid="ControlComponentClasses">
-            <StyledHeader>{isLogin && <StyledHeaderContent>Привет, {userName}!<button onClick={() => { setIsLogin(false); }}>Выйти</button></StyledHeaderContent>}</StyledHeader>
+        <div data-testid="ControlComponent">
+            <StyledHeader>{isLogin && <StyledHeaderContent data-testid="HeadComponent">Привет, {userName}!<button onClick={() => { setIsLogin(false); }}>Выйти</button></StyledHeaderContent>}</StyledHeader>
             {!isLogin
                 ? <LoginCompotent onClick={toggleStart} />
                 : <div>

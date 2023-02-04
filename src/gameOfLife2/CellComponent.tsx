@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../gameOfLife/components/CellComponent.css"
+import styled from "styled-components";
+import './CellComponent.css'
 
 
 export interface Cell {
@@ -16,7 +17,7 @@ export enum CellStatus {
     Dead,
 }
 
-type Props = {
+export type Props = {
     id: number,
     status: CellStatus,
     onClick: (id: number) => void
@@ -30,6 +31,7 @@ const CellComponent: React.FC<Props> = (props) => {
     useEffect(() => {
         setStatus(props.status);
     }, [props.status])
+
 
     return (<div data-testid="cellcomponent" className={status === CellStatus.Alive ? "cell alive" : (status === CellStatus.AliveOld ? "cell alive old" : "cell dead")}
         onClick={() => props.onClick(id)}>

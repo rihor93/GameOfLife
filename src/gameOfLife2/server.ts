@@ -1,4 +1,5 @@
-import { Cell, CellStatus } from "./CellComponentClasses";
+import { Cell, CellStatus } from "./CellComponent";
+
 
 const width = 50;
 const heigth = 50;
