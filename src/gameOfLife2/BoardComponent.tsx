@@ -14,8 +14,8 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
     const [boardStyle, setBoardStyle] = useState<CSSProperties>({});
     const [timerType, setTimerType] = useState<TimerTypes>('normal');
     const [boardType, setBoardType] = useState<BoardTypes>('normal');
-    const [width, setWidth] = useState(widthProps);
-    const [heigth, setHeigth] = useState(heigthProps);
+    //const [width, setWidth] = useState(widthProps);
+    //const [heigth, setHeigth] = useState(heigthProps);
     const [generation, setGeneration] = useState(0);
     const [error, setError] = useState(false);
     const [errorText, setErrorText] = useState('');
@@ -26,23 +26,25 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
 
     const refTimer = React.useRef<NodeJS.Timeout | null>(null);
     const boardDataForTimer = React.useRef<Cell[]>(boardData);
-    //const refWidth = useRef<number>(50); 
-    //const refHeigth = useRef<number>(50); 
+    const refWidth = useRef<number>(widthProps); 
+    const refHeigth = useRef<number>(heigthProps); 
 
     useEffect(() => {
         //console.log('BoardComponent123', widthProps);
-        setWidth(widthProps);
+        //setWidth(widthProps);
+        refWidth.current = widthProps;
     }, [widthProps])
 
     useEffect(() => {
         //console.log('BoardComponent123', widthProps);
-        setHeigth(heigthProps);
+        //setHeigth(heigthProps);
+        refHeigth.current = heigthProps;
     }, [heigthProps])
 
     useEffect(() => {
         setLoading(true);
 
-        getServerDataCells(false, heigth * width)
+        getServerDataCells(false, /*heigth * width*/refHeigth.current * refWidth.current)
             .then((board) => {
                 //console.log('getServerData then')
                 setLoading(false)
@@ -198,14 +200,16 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
          * @returns массив ячеек, после очередного цикла работы
          */
     function runGeneration(): Cell[] {
+        
+        const width = refWidth.current;
+        const heigth = refHeigth.current;
         console.log('runGeneration', width);
-        /*const width = refWidth.current;
-        const heigth = refHeigth.current;*/
         const board = boardDataForTimer.current;
         let newBoard = [];
 
         //let cellStatus = null;
         const cells = width * heigth;
+        console.log({cells})
         for (var i = 0; i < (cells); i++) {
 
             newBoard.push({ id: i, status: CellStatus.Dead });
@@ -222,7 +226,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
             }
 
         }
-
+        console.log({newBoard})
         return newBoard;
     }
 
@@ -234,10 +238,11 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
      */
     function cellCheck(i: number) {
 
-        /*const width = refWidth.current;
-        const heigth = refHeigth.current;*/
+        const width = refWidth.current;
+        const heigth = refHeigth.current;
         const board = boardDataForTimer.current;
         const cells = width * heigth;
+
 
         let count = 0;
         let borderCell = 0;

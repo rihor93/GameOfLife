@@ -41,7 +41,7 @@ const ControlComponent: React.FC = () => {
     return (
 
         <div data-testid="ControlComponentClasses">
-            <button onClick={() => { setWidth((v) => v - 1); setHeigth(10); }}>test{width.toString()}</button>
+            <button onClick={() => { setWidth((v) => v - 1); setHeigth((v) => v-1); }}>test{width.toString()}</button>
             <StyledHeader>{isLogin && <StyledHeaderContent>Привет, {userName}!<button onClick={() => { setIsLogin(false); }}>Выйти</button></StyledHeaderContent>}</StyledHeader>
             {!isLogin
                 ? <LoginCompotent onClick={toggleStart} />
