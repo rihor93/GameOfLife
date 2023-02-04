@@ -9,38 +9,11 @@ describe('CellComponent tests', () => {
     it('show id on screen', () => {
         let cellCLick = jest.fn();
         render(<CellComponent id={1} status={CellStatus.Alive} onClick={() => console.log('click')}  />);
-        const allElements = screen.getAllByText('1');
+        const allElements = screen.getByTestId('cellcomponent');
 
-        expect(allElements).toHaveLength(1);
+        expect(allElements).toBeInTheDocument();
     });
 
-    it('show alive element with class alive', () => {
-        const { container } = render(<CellComponent id={1} status={CellStatus.Alive} onClick={() => console.log('click')}  />);
-        const allElements = container.getElementsByClassName("cell alive")
-
-        expect(allElements).toHaveLength(1);
-    });
-
-    it('show alive element with class dead', () => {
-        const { container } = render(<CellComponent id={1} status={CellStatus.Alive} onClick={() => console.log('click')}  />);
-        const allElements = container.getElementsByClassName("cell dead")
-
-        expect(allElements).toHaveLength(0);
-    });
-
-    it('show dead element with class dead', () => {
-        const { container } = render(<CellComponent id={1} status={CellStatus.Dead} onClick={() => console.log('click')}  />);
-        const allElements = container.getElementsByClassName("cell dead")
-
-        expect(allElements).toHaveLength(1);
-    });
-
-    it('show aliveold element with class aliveold', () => {
-        const { container } = render(<CellComponent id={1} status={CellStatus.AliveOld} onClick={() => console.log('click')}  />);
-        const allElements = container.getElementsByClassName("cell old")
-
-        expect(allElements).toHaveLength(1);
-    });
     
 });
 

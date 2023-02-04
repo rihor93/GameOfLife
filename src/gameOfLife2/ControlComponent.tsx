@@ -3,6 +3,7 @@ import BoardComponent from "../gameOfLife2/BoardComponent";
 import LoginCompotent from "./LoginComponent";
 import styled from "styled-components";
 import { baseTheme } from "../styles/theme";
+import { StyledBoardComponent, StyledHeader, StyledHeaderContent } from "./style";
 
 type BoardTypes = 'small' | 'normal' | 'big'
 
@@ -40,17 +41,9 @@ const ControlComponent: React.FC = () => {
         }
     }, [boardType]);
 
-    const StyledHeader = styled.header`
-  background-color: ${baseTheme.colors.headerBackgroudColor};
-  height: ${baseTheme.sizes.header.height}px;
-  z-index: ${baseTheme.order.header};
-  color: ${baseTheme.colors.headerBackgroudTextColor};
-  text-align: center;
-`
+    
 
-    const StyledHeaderContent = styled.div`
-    float: right;
-    `
+    
 
 
     return (
@@ -65,7 +58,8 @@ const ControlComponent: React.FC = () => {
                         <button onClick={() => setBoardType('normal')}>25x25</button>
                         <button onClick={() => setBoardType('big')}>50x50</button>
                     </div>
-                    <BoardComponent width={width} heigth={heigth} />
+                    {/*<BoardComponent width={width} heigth={heigth} />*/}
+                    <StyledBoardComponent width={width} heigth={heigth} />
                 </div>}
 
         </div>

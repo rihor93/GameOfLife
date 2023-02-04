@@ -3,7 +3,7 @@ import styled, { StyledComponent } from "styled-components";
 import { TextStyled } from "../Tests/styles";
 import CellComponent, { Cell, CellStatus } from "./CellComponent";
 import { getServerDataCells } from "./server";
-import { StyledCellComponent } from "./StyledCellComponent";
+import { StyledCellComponent } from "./style";
 
 
 
@@ -11,8 +11,7 @@ type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
 
 //let boardDataForTimer: Cell[];
 
-
-const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: widthProps, heigth: heigthProps}) => {
+const BoardComponent: React.FC<{width: number, heigth: number, className?: string}> = ({width: widthProps, heigth: heigthProps, className: classProps}) => {
     const [timerType, setTimerType] = useState<TimerTypes>('normal');
     
     //const [width, setWidth] = useState(widthProps);
@@ -159,30 +158,13 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
     }
 
     //useMemo(() => ({ test: "test" }), []);
-    const StyledBoard = styled.div`
-    background: #000;
-	margin: 0px auto;
-	border: 9px solid #333;
-	border-radius: 9px;
-	box-shadow: 0px 16px 30px 0px #200;
-    width:${widthProps*16}px;
-    height:${heigthProps*16}px;
-    `
 
     
 
-    /*const callback = useMemo(() => styled.div`
-    background: #000;
-	margin: 0px auto;
-	border: 9px solid #333;
-	border-radius: 9px;
-	box-shadow: 0px 16px 30px 0px #200;
-    width:${widthProps*16}px;
-    height:${heigthProps*16}px;`, [widthProps, he]);*/
 
     return (
 
-        <div data-testid="boardcomponent">
+        <div data-testid="boardcomponent" >
             {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
                 <div>
                     <div>Генерация:{generation}({timerType})</div>
@@ -194,7 +176,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
                     </div>
                     
                     {/*<button onClick={this.tick}>Tick</button>*/}
-                    <StyledBoard>
+                    <div className={classProps}>
                         {error
                             ? <div>{errorText}</div>
                             : boardData.map((cell, i) => {
@@ -204,7 +186,7 @@ const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: width
                                 //return (<TextStyled color="#ADFF2F"/>)
                             })}
 
-                    </StyledBoard>
+                    </div>
 
                 </div>
             }

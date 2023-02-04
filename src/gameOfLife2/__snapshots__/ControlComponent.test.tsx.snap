@@ -5,37 +5,7 @@ exports[`ControlComponent Snapshottest snapshottest 1`] = `
   data-testid="ControlComponent"
 >
   <header
-    className="sc-ftTHYK eNaoBN"
-  />
-  <div
-    className="cardBorder contentWrapper"
-  >
-    <div>
-      Введите имя:
-      <input
-        data-testid="loginInput"
-        onChange={[Function]}
-        value=""
-      />
-    </div>
-    <div>
-      <button
-        data-testid="btnStart"
-        onClick={[Function]}
-      >
-        Старт!
-      </button>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`LoginComponent Snapshottest snapshottest 1`] = `
-<div
-  data-testid="ControlComponent"
->
-  <header
-    className="sc-ftTHYK eNaoBN"
+    className="sc-hLBbgP jZgVNq"
   />
   <div
     className="cardBorder contentWrapper"

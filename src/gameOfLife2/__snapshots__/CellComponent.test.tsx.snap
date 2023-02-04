@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CellComponent Snapshottest Alive cell snapshot 1`] = `
+<div
+  data-testid="cellcomponent"
+  onClick={[Function]}
+>
+  1
+</div>
+`;
+
+exports[`CellComponent Snapshottest Alive old cell snapshot 1`] = `
+<div
+  data-testid="cellcomponent"
+  onClick={[Function]}
+>
+  1
+</div>
+`;
+
+exports[`CellComponent Snapshottest Dead cell snapshot 1`] = `
+<div
+  data-testid="cellcomponent"
+  onClick={[Function]}
+>
+  1
+</div>
+`;
