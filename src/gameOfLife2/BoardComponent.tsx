@@ -10,12 +10,12 @@ type BoardTypes = 'small' | 'normal' | 'big'
 let boardDataForTimer: Cell[];
 
 
-const BoardComponent: React.FC = () => {
+const BoardComponent: React.FC<{width: number, heigth: number}> = ({width: widthProps, heigth: heigthProps}) => {
     const [boardStyle, setBoardStyle] = useState<CSSProperties>({});
     const [timerType, setTimerType] = useState<TimerTypes>('normal');
     const [boardType, setBoardType] = useState<BoardTypes>('normal');
-    /*const [width, setWidth] = useState(50);
-    const [heigth, setHeigth] = useState(50);*/
+    const [width, setWidth] = useState(widthProps);
+    const [heigth, setHeigth] = useState(heigthProps);
     const [generation, setGeneration] = useState(0);
     const [error, setError] = useState(false);
     const [errorText, setErrorText] = useState('');
@@ -25,14 +25,23 @@ const BoardComponent: React.FC = () => {
     console.log('BoardComponent');
 
     const refTimer = React.useRef<NodeJS.Timeout | null>(null);
-    const refWidth = useRef<number>(50); 
-    const refHeigth = useRef<number>(50); 
+    //const refWidth = useRef<number>(50); 
+    //const refHeigth = useRef<number>(50); 
 
+    useEffect(() => {
+        //console.log('BoardComponent123', widthProps);
+        setWidth(widthProps);
+    }, [widthProps])
+
+    useEffect(() => {
+        //console.log('BoardComponent123', widthProps);
+        setHeigth(heigthProps);
+    }, [heigthProps])
 
     useEffect(() => {
         setLoading(true);
 
-        getServerDataCells(false, refHeigth.current * refWidth.current)
+        getServerDataCells(false, heigth * width)
             .then((board) => {
                 //console.log('getServerData then')
                 setLoading(false)
@@ -167,12 +176,12 @@ const BoardComponent: React.FC = () => {
                         <button onClick={() => setBoardType('big')}>50x50</button>
                     </div>
                     {/*<button onClick={this.tick}>Tick</button>*/}
-                    <StyledBoard style={boardStyle}>
+                    <StyledBoard>
                         {error
                             ? <div>{errorText}</div>
                             : boardData.map((cell, i) => {
                                 //return <div key={i} >{cell.id + ';' + cell.status + "|"}</div>
-                                return (<CellComponent key={cell.id + ';' + cell.status} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
+                                return (<CellComponent key={cell.id/* + ';' + cell.status*/} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
                             })}
 
                     </StyledBoard>
@@ -188,9 +197,9 @@ const BoardComponent: React.FC = () => {
          * @returns массив ячеек, после очередного цикла работы
          */
     function runGeneration(): Cell[] {
-
-        const width = refWidth.current;
-        const heigth = refHeigth.current;
+        console.log('runGeneration', width);
+        /*const width = refWidth.current;
+        const heigth = refHeigth.current;*/
         const board = boardDataForTimer;
         let newBoard = [];
 
@@ -224,8 +233,8 @@ const BoardComponent: React.FC = () => {
      */
     function cellCheck(i: number) {
 
-        const width = refWidth.current;
-        const heigth = refHeigth.current;
+        /*const width = refWidth.current;
+        const heigth = refHeigth.current;*/
         const board = boardDataForTimer;
         const cells = width * heigth;
 

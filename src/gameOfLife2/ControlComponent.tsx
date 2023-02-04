@@ -12,6 +12,9 @@ const ControlComponent: React.FC = () => {
     const [isLogin, setIsLogin] = useState(false);
     const [userName, setUserName] = useState('' as string);
 
+    const [width, setWidth] = useState(50);
+    const [heigth, setHeigth] = useState(50);
+
     function toggleStart(name: string) {
         console.log('start', name);
         setUserName(name);
@@ -30,13 +33,19 @@ const ControlComponent: React.FC = () => {
     float: right;
     `
 
+    function testfunc() {
+        console.log('test')
+        
+    }   
+
     return (
 
         <div data-testid="ControlComponentClasses">
+            <button onClick={() => { setWidth((v) => v - 1); setHeigth(10); }}>test{width.toString()}</button>
             <StyledHeader>{isLogin && <StyledHeaderContent>Привет, {userName}!<button onClick={() => { setIsLogin(false); }}>Выйти</button></StyledHeaderContent>}</StyledHeader>
             {!isLogin
                 ? <LoginCompotent onClick={toggleStart} />
-                : <BoardComponent></BoardComponent>}
+                : <BoardComponent width={width} heigth={heigth}/>}
 
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../gameOfLife/components/CellComponent.css"
 
 
@@ -26,6 +26,10 @@ const CellComponent: React.FC<Props> = (props) => {
     //console.log('CellComponent')
     const [id, setId] = useState(props.id);
     const [status, setStatus] = useState(props.status);
+
+    useEffect(() => {
+        setStatus(props.status);
+    }, [props.status])
 
     return (<div data-testid="cellcomponent" className={status === CellStatus.Alive ? "cell alive" : (status === CellStatus.AliveOld ? "cell alive old" : "cell dead")}
         onClick={() => props.onClick(id)}>
