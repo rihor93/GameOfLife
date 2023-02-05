@@ -6,7 +6,7 @@ import CellComponent, { CellStatus, Props } from '../gameOfLife2/CellComponent';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-    title: 'Example/CellClasses',
+    title: 'Example/Cell',
     component: CellComponent,
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {
