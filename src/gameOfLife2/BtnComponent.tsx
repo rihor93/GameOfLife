@@ -2,13 +2,13 @@ import React from "react"
 
 export interface BtnProps {
     onClick: () => void,
-    value: string,
+    children: string,
 }
 
-const BtnComponent: React.FC<BtnProps> = ({ value, onClick }) => {
+const BtnComponent: React.FC<BtnProps> = ({ children, onClick }) => {
     return (
 
-        <button onClick={onClick}>{value}</button>
+        <button onClick={onClick}>{children}</button>
 
     );
 }

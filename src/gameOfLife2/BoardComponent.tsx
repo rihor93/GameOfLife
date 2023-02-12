@@ -8,6 +8,8 @@ import { BoardTypes, TimerTypes } from "./ControlComponent";
 import { getServerDataCells } from "./server";
 import { StyledCellComponent } from "./style";
 import {Input} from './input/input'
+import { InputNumber } from "./input/InputNumber";
+import { InputNumberWithArrows } from "./input/InputNumberWithArrows";
 
 
 
@@ -85,9 +87,9 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
 
     //useMemo(() => ({ test: "test" }), []);
 
-    const onPersentToLoadChange = (event: { value: string }) => {
+    const onPersentToLoadChange = (event: { value: number }) => {
         console.log(event.value);
-        setPersentToLoad(Number(event.value));
+        setPersentToLoad(event.value);
     }
 
     return (
@@ -95,20 +97,20 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
         <div data-testid="boardcomponent" >
             {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
                 <div>
-                    <div>Процент заполнения:<Input value={persentToLoad.toString()} onChange={onPersentToLoadChange} />%<BtnComponent value="Set" onClick={() => setPersentData(persentToLoad)/*setBoardType('small')*/}/></div>
+                    <div>Процент заполнения:<InputNumberWithArrows value={persentToLoad} onChange={onPersentToLoadChange} ><BtnComponent onClick={() => setPersentData(persentToLoad)/*setBoardType('small')*/}>Set</BtnComponent></InputNumberWithArrows></div>
                     <div>Генерация:{generation}({timerType})</div>
                     <div>Заполнено:{persent}%</div>
                     <div>
-                        <BtnComponent value="10x10" onClick={() => setBoardType('small')/*setBoardType('small')*/}/>
-                        <BtnComponent value="25x25" onClick={() => setBoardType('normal')}/>
-                        <BtnComponent value="50x50" onClick={() => setBoardType('big')}/>
-                        <BtnComponent value="Reset" onClick={resetData}/>
+                        <BtnComponent onClick={() => setBoardType('small')/*setBoardType('small')*/}>10x10</BtnComponent>
+                        <BtnComponent onClick={() => setBoardType('normal')}>25x25</BtnComponent>
+                        <BtnComponent onClick={() => setBoardType('big')}>50x50</BtnComponent>
+                        <BtnComponent onClick={resetData}>Reset</BtnComponent>
                     </div>
                     <div>
-                        <BtnComponent value="slow" onClick={() => setTimerType('slow')/*setBoardType('small')*/}/>
-                        <BtnComponent value="normal" onClick={() => setTimerType('normal')}/>
-                        <BtnComponent value="fast" onClick={() => setTimerType('fast')}/>
-                        <BtnComponent value="pause" onClick={() => setTimerType('pause')}/>
+                        <BtnComponent onClick={() => setTimerType('slow')/*setBoardType('small')*/}>slow</BtnComponent>
+                        <BtnComponent onClick={() => setTimerType('normal')}>normal</BtnComponent>
+                        <BtnComponent onClick={() => setTimerType('fast')}>fast</BtnComponent>
+                        <BtnComponent  onClick={() => setTimerType('pause')}>pause</BtnComponent>
                     </div>
 
                     {/*<button onClick={this.tick}>Tick</button>*/}
