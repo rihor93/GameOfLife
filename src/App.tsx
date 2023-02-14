@@ -1,12 +1,11 @@
-import React from 'react';
 import './App.css';
-import { BoardComponent } from './gameOfLife/components/BoardComponent';
-import { ControlComponentClasses } from './gameOfLifeClasses/ControlComponentClasses';
+import ControlComponent from './gameOfLife2/ControlComponent';
+
 
 function App() {
   return (
     <div className="App">
-      <ControlComponentClasses/>
+      <ControlComponent />
     </div>
   );
 }

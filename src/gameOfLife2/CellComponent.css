@@ -1,0 +1,59 @@
+@keyframes alive_old_animation {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: yellow;
+    }
+}
+
+@keyframes alive_dead_animation {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: black;
+    }
+}
+
+@keyframes old_alive_animation {
+    from {
+        background-color: yellow;
+    }
+
+    to {
+        background-color: red;
+    }
+}
+
+@keyframes old_dead_animation {
+    from {
+        background-color: yellow;
+    }
+
+    to {
+        background-color: black;
+    }
+}
+
+@keyframes dead_alive_animation {
+    from {
+        background-color: black;
+    }
+
+    to {
+        background-color: red;
+    }
+}
+
+@keyframes dead_old_animation {
+    from {
+        background-color: black;
+    }
+
+    to {
+        background-color: yellow;
+    }
+}

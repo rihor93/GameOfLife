@@ -1,132 +1,222 @@
-import { Component, useCallback } from "react";
-import { Cell, CellComponentClasses, CellStatus } from "./CellComponentClasses";
-import { getServerData, width, heigth, cells } from "./server"
+import React, { useEffect, useRef, useState } from "react";
+import { Cell, CellStatus } from "./CellComponent";
+import { getServerDataCells } from "./server";
+import { StyledCellComponent } from "./style";
 
-type State = {
-    generation: number,
-    error: boolean,
-    errorText: string,
-    boardData: Cell[],
-    loading: boolean,
-    endWork: boolean,
-};
 
-type Props = {};
 
-export class BoardComponentClasses extends Component<Props, State> {
-    timer: any
+type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            boardData: [],
-            error: false,
-            errorText: '',
-            generation: 0,
-            loading: true,
-            endWork: false,
-        }
-    }
+//let boardDataForTimer: Cell[];
 
-    componentDidMount = () => {
-        //console.log("componentDidMount BoardComponentClasses", this);
-        window.addEventListener("click", this.windowClick);
-        getServerData(false)
+const BoardComponent: React.FC<{ width: number, heigth: number, className?: string }> = ({ width: widthProps, heigth: heigthProps, className: classProps }) => {
+    const [timerType, setTimerType] = useState<TimerTypes>('normal');
+
+    //const [width, setWidth] = useState(widthProps);
+    //const [heigth, setHeigth] = useState(heigthProps);
+    const [generation, setGeneration] = useState(0);
+    const [error, setError] = useState(false);
+    const [errorText, setErrorText] = useState('');
+    const [boardData, setBoardData] = useState<Cell[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [endWork, setEndWork] = useState(false);
+    console.log('BoardComponent');
+
+    const refTimer = React.useRef<NodeJS.Timeout | null>(null);
+    const boardDataForTimer = React.useRef<Cell[]>(boardData);
+    const refWidth = useRef<number>(widthProps);
+    const refHeigth = useRef<number>(heigthProps);
+
+    const refCachedStyle = useRef<any>([]);
+
+    useEffect(() => {
+        //console.log('BoardComponent123', widthProps);
+        //setWidth(widthProps);
+        refWidth.current = widthProps;
+        tick();
+    }, [widthProps])
+
+    useEffect(() => {
+        //console.log('BoardComponent123', widthProps);
+        //setHeigth(heigthProps);
+        refHeigth.current = heigthProps;
+        tick();
+    }, [heigthProps])
+
+    useEffect(() => {
+        setLoading(true);
+
+        getServerDataCells(false, /*heigth * width*/refHeigth.current * refWidth.current)
             .then((board) => {
                 //console.log('getServerData then')
-                this.setState({ loading: false });
-                this.setState({ boardData: board });
-                if (this.timer === null) {
-                    this.timer = setTimeout(() => {
-                        //console.log('timer')
-                        this.tick()
-                    }, 5000);
-                }
+                setLoading(false)
+                //console.log('setServerData', board);
+                setBoardData(board);
+                boardDataForTimer.current = board;
+                setTimerType('normal');
             })
-            .catch((err) => this.setState({ error: true, errorText: err, loading: false }))
+            .catch((err) => {
 
+                setError(true);
+                setErrorText(err);
+                setLoading(false);
+            })
+        return () => {
+            if (refTimer.current !== null) {
+                clearInterval(refTimer.current);
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        boardDataForTimer.current = boardData;
+
+    }, [boardData]);
+
+    /*useEffect(() => {
+        const tt = timerType;
+
+        setTimerType('pause');
+
+        switch (boardType) {
+            case 'small':
+                setBoardStyle({height: 200, width:200});
+                setTimerType(tt);
+                return
+                case 'normal':
+                setBoardStyle({height: 400, width:400});
+                setTimerType(tt);
+                return
+                case 'big':
+                setBoardStyle({height: 800, width:800});
+                setTimerType(tt);
+                return
+            default:
+                return
+        }
+    }, [boardType]);*/
+
+    useEffect(() => {
+        if (refTimer.current !== null) {
+            clearInterval(refTimer.current);
+        }
+        switch (timerType) {
+            case 'normal':
+
+                refTimer.current = setInterval(() => {
+                    tick();
+                    //console.log('test timer', new Date())
+                }, 5000);
+                return;
+            case 'slow':
+
+                refTimer.current = setInterval(() => {
+                    tick();
+                    //console.log('test timer', new Date())
+                }, 10000);
+                return;
+            case 'fast':
+
+                refTimer.current = setInterval(() => {
+                    tick();
+                    //console.log('test timer', new Date())
+                }, 1000);
+                return;
+            default:
+                if (refTimer.current !== null) {
+                    clearInterval(refTimer.current);
+                }
+        }
+    }, [timerType])
+
+    function onCellClick(id: number) {
+        //console.log('onClick1')
+        boardDataForTimer.current[id].status = boardDataForTimer.current[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
+        const updatedBoardData = JSON.parse(JSON.stringify(boardDataForTimer.current));
+        //this.setState((state) => ({ ...state, boardData: updatedBoardData }))
+        setBoardData(updatedBoardData);
+        //console.log('onClick2')
     }
 
-    componentWillUnmount = () => {
-        //console.log("componentWillUnmount BoardComponentClasses", this);
-        //this.setState({ boardData: [] });
-        clearTimeout(this.timer);
-        this.timer = null;
-        window.removeEventListener("click", this.windowClick);
-    }
 
-    windowClick = (e: MouseEvent) => console.log(`x: ${e.pageX}, y: ${e.pageY}`);
-
-    tick = () => {
-        //console.log('tick');
-        let newBoard = this.runGeneration();
-        //const updatedBoardData = JSON.parse(JSON.stringify(newBoard));
-        this.setState((v) => ({ boardData: newBoard, generation: v.generation + 1 }))
-        this.timer = setTimeout(() => { this.tick() }, 5000);
+    function tick() {
+        console.log('test timer', new Date())
+        if (boardDataForTimer.current.length > 0) {
+            let newBoard = runGeneration();
+            //const updatedBoardData = JSON.parse(JSON.stringify(newBoard));
+            if (JSON.stringify(newBoard) === JSON.stringify(boardDataForTimer.current)) {
+                setTimerType('pause');
+            } else {
+                setBoardData(newBoard);
+                setGeneration((v) => v = v + 1);
+            }
+        }
+        //initTimer();
         //console.log('tick', this.state.boardData);
     }
 
-    onCellClick = (id: number) => {
-        this.state.boardData[id].status = this.state.boardData[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
-        const updatedBoardData = JSON.parse(JSON.stringify(this.state.boardData));
-        this.setState((state) => ({ ...state, boardData: updatedBoardData }))
-        //console.log('onClick')
-    }
+    //useMemo(() => ({ test: "test" }), []);
 
-    /*shouldComponentUpdate(nextProps: Props, nextState: State) {
-        if (JSON.stringify(nextState.boardData) === JSON.stringify(this.state.boardData))
-            return false;
-        return true;
-    }*/
 
-    componentDidUpdate(prevProps: Props, prevState: State, snapshot: any) {
-        if (prevState.generation !== this.state.generation) {
-            if (JSON.stringify(prevState.boardData) === JSON.stringify(this.state.boardData)) {
-                clearTimeout(this.timer);
-                this.setState({endWork: true})
-            }
-        }
-    }
 
-    render() {
 
-        const { boardData, error, errorText, generation, loading, endWork } = this.state;
-        //console.log('boardData render', this.state.boardData)
-        return (
-            <div data-testid="boardcomponent">
-                {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
+    return (
+
+        <div data-testid="boardcomponent" >
+            {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
+                <div>
+                    <div>Генерация:{generation}({timerType})</div>
                     <div>
-                        <div>{generation}</div>
-                        {/*<button onClick={this.tick}>Tick</button>*/}
-                        <div >
-                            {error ? <div>{errorText}</div> : boardData.map((cell, i) => {
+                        <button onClick={() => setTimerType('pause')}>Pause</button>
+                        <button onClick={() => setTimerType('slow')}>Slow</button>
+                        <button onClick={() => setTimerType('normal')}>Normal</button>
+                        <button onClick={() => setTimerType('fast')}>Fast</button>
+                    </div>
+
+                    {/*<button onClick={this.tick}>Tick</button>*/}
+                    <div className={classProps}>
+                        {error
+                            ? <div>{errorText}</div>
+                            : boardData.map((cell, i) => {
                                 //return <div key={i} >{cell.id + ';' + cell.status + "|"}</div>
-                                return (<CellComponentClasses key={cell.id/*cell.id + ';' + cell.status*/} onClick={() => { this.onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
+                                return (<StyledCellComponent key={cell.id/* + ';' + cell.status*/} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
+                                //return (<TextStyled key={cell.id/* + ';' + cell.status*/} onClick={() => { onCellClick(cell.id) }} id={cell.id} status={cell.status} />)
+                                //return (<TextStyled color="#ADFF2F"/>)
                             })}
 
-                        </div>
                     </div>
-                }
-            </div>);
-    }
 
+                </div>
+            }
+        </div>
+
+    );
 
     /**
          * функция по обработке массива ячеек, на очередном тике жизни
          * @returns массив ячеек, после очередного цикла работы
          */
-    runGeneration = (): Cell[] => {
+    function runGeneration(): Cell[] {
 
-        const board = this.state.boardData;
+        const width = refWidth.current;
+        const heigth = refHeigth.current;
+        //console.log('runGeneration', width);
+        const board = boardDataForTimer.current;
         let newBoard = [];
 
         //let cellStatus = null;
-
+        const cells = width * heigth;
+        if (board.length < cells) {
+            for (let i = board.length; i < cells; i++) {
+                board.push({ id: i, status: CellStatus.Dead });
+            }
+        }
+        //console.log({cells})
         for (var i = 0; i < (cells); i++) {
 
             newBoard.push({ id: i, status: CellStatus.Dead });
 
-            var check = this.cellCheck(i);
+            var check = cellCheck(i, width, heigth, board);
 
             //keeps the living cell alive if it has 2 or 3 living neighbors
             if ((board[i].status === CellStatus.Alive || board[i].status === CellStatus.AliveOld) && (check === 3 || check === 2)) {
@@ -138,7 +228,7 @@ export class BoardComponentClasses extends Component<Props, State> {
             }
 
         }
-
+        //console.log({newBoard})
         return newBoard;
     }
 
@@ -148,9 +238,13 @@ export class BoardComponentClasses extends Component<Props, State> {
      * @param i номер ячейки в массиве, которую проверяем
      * @returns количество живых ячеек вокруг заданной
      */
-    cellCheck = (i: number) => {
+    function cellCheck(i: number, width: number, heigth: number, board: Cell[]) {
 
-        const board = this.state.boardData;
+        /*const width = refWidth.current;
+        const heigth = refHeigth.current;
+        const board = boardDataForTimer.current;*/
+        const cells = width * heigth;
+
 
         let count = 0;
         let borderCell = 0;
@@ -443,3 +537,10 @@ export class BoardComponentClasses extends Component<Props, State> {
         return count;
     }
 }
+
+
+
+export default BoardComponent;
+
+
+

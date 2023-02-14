@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ControlComponent Snapshottest snapshottest 1`] = `
+<div
+  data-testid="ControlComponent"
+>
+  <header
+    className="sc-dkrFOg NYprO"
+  />
+  <div
+    className="cardBorder contentWrapper"
+  >
+    <div>
+      Введите имя:
+      <input
+        data-testid="loginInput"
+        onChange={[Function]}
+        value=""
+      />
+    </div>
+    <div>
+      <button
+        data-testid="btnStart"
+        onClick={[Function]}
+      >
+        Старт!
+      </button>
+    </div>
+  </div>
+</div>
+`;

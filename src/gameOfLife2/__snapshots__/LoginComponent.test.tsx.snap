@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginComponent SnapshotTest snapshottest 1`] = `
+<div
+  className="cardBorder contentWrapper"
+>
+  <div>
+    Введите имя:
+    <input
+      data-testid="loginInput"
+      onChange={[Function]}
+      value=""
+    />
+  </div>
+  <div>
+    <button
+      data-testid="btnStart"
+      onClick={[Function]}
+    >
+      Старт!
+    </button>
+  </div>
+</div>
+`;
