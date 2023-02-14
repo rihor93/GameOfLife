@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BoardComponent from "../gameOfLife2/BoardComponent";
 import LoginCompotent from "./LoginComponent";
-import styled from "styled-components";
-import { baseTheme } from "../styles/theme";
 import { StyledBoardComponent, StyledHeader, StyledHeaderContent } from "./style";
 
 type BoardTypes = 'small' | 'normal' | 'big'

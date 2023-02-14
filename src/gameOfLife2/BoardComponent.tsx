@@ -1,6 +1,5 @@
-import React, { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import styled, { StyledComponent } from "styled-components";
-import CellComponent, { Cell, CellStatus } from "./CellComponent";
+import React, { useEffect, useRef, useState } from "react";
+import { Cell, CellStatus } from "./CellComponent";
 import { getServerDataCells } from "./server";
 import { StyledCellComponent } from "./style";
 
