@@ -10,16 +10,16 @@ describe('ControlComponent tests', () => {
         
         })*/
 
-        const {getByTestId} = render(<ControlComponent/>);
+        const { getByTestId } = render(<ControlComponent />);
         let btnStart = getByTestId('btnStart')
         await userEvent.click(btnStart);
 
         const counter = await waitFor(() => getByTestId('HeadComponent'))
         expect(counter).toBeInTheDocument();
-        
+
     });
 
-    
+
 
 });
 
@@ -31,8 +31,8 @@ describe('ControlComponent Snapshottest', () => {
         expect(cellContainer).toMatchSnapshot();
     });
 
-    
 
-    
+
+
 
 });

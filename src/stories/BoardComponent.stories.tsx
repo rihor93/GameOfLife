@@ -18,7 +18,7 @@ export default {
 } as ComponentMeta<typeof BoardComponent>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof BoardComponent> = (args: {width: number, heigth: number}) => <BoardComponent {...args} />;
+const Template: ComponentStory<typeof BoardComponent> = (args: { width: number, heigth: number }) => <BoardComponent {...args} />;
 
 export const BoardComponentOne = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
@@ -29,7 +29,7 @@ BoardComponentOne.args = {
 
 };
 
-export const BoardComponentTwo= Template.bind({});
+export const BoardComponentTwo = Template.bind({});
 BoardComponentTwo.args = {
     width: 25,
     heigth: 25,

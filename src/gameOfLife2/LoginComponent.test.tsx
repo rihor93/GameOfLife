@@ -24,7 +24,7 @@ describe('LoginComponent SnapshotTest', () => {
 
     it('snapshottest', () => {
         const cellContainer = renderer
-            .create(<LoginComponent onClick={()=> {}} />)
+            .create(<LoginComponent onClick={() => { }} />)
             .toJSON();
         expect(cellContainer).toMatchSnapshot();
     });

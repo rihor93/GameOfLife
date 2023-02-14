@@ -41,9 +41,9 @@ const ControlComponent: React.FC = () => {
         }
     }, [boardType]);
 
-    
 
-    
+
+
 
 
     return (

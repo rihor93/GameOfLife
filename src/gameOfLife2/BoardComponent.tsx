@@ -1,6 +1,5 @@
 import React, { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled, { StyledComponent } from "styled-components";
-import { TextStyled } from "../Tests/styles";
 import CellComponent, { Cell, CellStatus } from "./CellComponent";
 import { getServerDataCells } from "./server";
 import { StyledCellComponent } from "./style";
@@ -11,9 +10,9 @@ type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
 
 //let boardDataForTimer: Cell[];
 
-const BoardComponent: React.FC<{width: number, heigth: number, className?: string}> = ({width: widthProps, heigth: heigthProps, className: classProps}) => {
+const BoardComponent: React.FC<{ width: number, heigth: number, className?: string }> = ({ width: widthProps, heigth: heigthProps, className: classProps }) => {
     const [timerType, setTimerType] = useState<TimerTypes>('normal');
-    
+
     //const [width, setWidth] = useState(widthProps);
     //const [heigth, setHeigth] = useState(heigthProps);
     const [generation, setGeneration] = useState(0);
@@ -26,10 +25,10 @@ const BoardComponent: React.FC<{width: number, heigth: number, className?: strin
 
     const refTimer = React.useRef<NodeJS.Timeout | null>(null);
     const boardDataForTimer = React.useRef<Cell[]>(boardData);
-    const refWidth = useRef<number>(widthProps); 
-    const refHeigth = useRef<number>(heigthProps); 
+    const refWidth = useRef<number>(widthProps);
+    const refHeigth = useRef<number>(heigthProps);
 
-    const refCachedStyle= useRef<any>([]); 
+    const refCachedStyle = useRef<any>([]);
 
     useEffect(() => {
         //console.log('BoardComponent123', widthProps);
@@ -72,7 +71,7 @@ const BoardComponent: React.FC<{width: number, heigth: number, className?: strin
 
     useEffect(() => {
         boardDataForTimer.current = boardData;
-        
+
     }, [boardData]);
 
     /*useEffect(() => {
@@ -159,7 +158,7 @@ const BoardComponent: React.FC<{width: number, heigth: number, className?: strin
 
     //useMemo(() => ({ test: "test" }), []);
 
-    
+
 
 
     return (
@@ -174,7 +173,7 @@ const BoardComponent: React.FC<{width: number, heigth: number, className?: strin
                         <button onClick={() => setTimerType('normal')}>Normal</button>
                         <button onClick={() => setTimerType('fast')}>Fast</button>
                     </div>
-                    
+
                     {/*<button onClick={this.tick}>Tick</button>*/}
                     <div className={classProps}>
                         {error
@@ -199,7 +198,7 @@ const BoardComponent: React.FC<{width: number, heigth: number, className?: strin
          * @returns массив ячеек, после очередного цикла работы
          */
     function runGeneration(): Cell[] {
-        
+
         const width = refWidth.current;
         const heigth = refHeigth.current;
         //console.log('runGeneration', width);
@@ -209,8 +208,8 @@ const BoardComponent: React.FC<{width: number, heigth: number, className?: strin
         //let cellStatus = null;
         const cells = width * heigth;
         if (board.length < cells) {
-            for (let i = board.length; i < cells;i++) {
-                board.push({id: i, status: CellStatus.Dead});
+            for (let i = board.length; i < cells; i++) {
+                board.push({ id: i, status: CellStatus.Dead });
             }
         }
         //console.log({cells})
