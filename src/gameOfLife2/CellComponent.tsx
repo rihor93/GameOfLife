@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { memo } from "react";
 
 
 export interface Cell {
@@ -22,21 +22,22 @@ export type Props = {
     className?: string,
 };
 
-const CellComponent: React.FC<Props> = (props) => {
+//const CellComponent: React.FC<Props> = (props) => {
+const CellComponent= memo<Props>( (props) => {
     //console.log('CellComponent')
-    const [id, setId] = useState(props.id);
-    const [status, setStatus] = useState(props.status);
+    /*const [id, setId] = useState(props.id);
+    const [status, setStatus] = useState(props.status);*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         setStatus(props.status);
-    }, [props.status])
-
+    }, [props.status])*/
+    //console.log('cellComponent');
 
     return (<div className={props.className} data-testid="cellcomponent" /*className={status === CellStatus.Alive ? "cell alive" : (status === CellStatus.AliveOld ? "cell old" : "cell dead")}*/
-        onClick={() => props.onClick(id)}>
-        {id}
+        onClick={() => props.onClick(props.id)}>
+        {props.id}
     </div>);
-}
+})
 
 
 

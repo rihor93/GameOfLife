@@ -1,12 +1,18 @@
 import './App.css';
 import ControlComponent from './gameOfLife2/ControlComponent';
+import { Navigation } from './Navigation/Navigation';
+import { TokenProvider } from './TokenProvider';
 
 
 function App() {
   return (
-    <div className="App">
-      <ControlComponent />
-    </div>
+    <TokenProvider>
+      {/*<div className="App">
+        <ControlComponent />
+  </div>*/}
+      <Navigation>
+      </Navigation>
+    </TokenProvider>
   );
 }
 
