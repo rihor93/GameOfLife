@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import LoginComponent, { LoginComponentProps } from '../gameOfLife2/LoginComponent';
+import LoginComponent from '../Auth/Auth';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -14,10 +14,7 @@ export default {
 } as ComponentMeta<typeof LoginComponent>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof LoginComponent> = (args: LoginComponentProps) => <LoginComponent {...args} />;
+const Template: ComponentStory<typeof LoginComponent> = () => <LoginComponent />;
 
 export const LoginComponentShow = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-LoginComponentShow.args = {
-  onClick: (name: string) => { alert('Вы ввели:' + name) }
-};

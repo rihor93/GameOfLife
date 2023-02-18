@@ -1,17 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import LoginCompotent from "./LoginComponent";
+import LoginCompotent from "../Auth/Auth";
 import { StyledBoardComponent, StyledHeader, StyledHeaderContent } from "./style";
 import { Cell, CellStatus } from "./CellComponent";
 import { getServerDataCells } from "./server";
+import { useTokenContext } from "../TokenProvider";
+import BtnComponent from "./BtnComponent";
 
 export type BoardTypes = 'small' | 'normal' | 'big'
 export type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'
 
 const ControlComponent: React.FC = () => {
+
+    const [token, { logout }] = useTokenContext();
+
     const [timerType, setTimerType] = useState<TimerTypes>('normal');
     const [boardType, setBoardType] = useState<BoardTypes>('big');
-    const [isLogin, setIsLogin] = useState(false);
-    const [userName, setUserName] = useState<string>('');
+    //const [userName, setUserName] = useState<string>(token);
     const [generation, setGeneration] = useState(0);
     const [error, setError] = useState(false);
     const [errorText, setErrorText] = useState('');
@@ -30,11 +34,6 @@ const ControlComponent: React.FC = () => {
     const refWidth = useRef<number>(width);
     const refHeigth = useRef<number>(heigth);
 
-    function toggleStart(name: string) {
-        console.log('start', name);
-        setUserName(name);
-        setIsLogin(true);
-    }
 
     const loadServerData = useCallback(() => {
         
@@ -189,14 +188,6 @@ const ControlComponent: React.FC = () => {
         setTimerType(type)
         //console.log('onClick2')
     }, [])
-    /*function onCellClick(id: number) {
-        //console.log('onClick1')
-        boardDataForTimer.current[id].status = boardDataForTimer.current[id].status === CellStatus.Alive ? CellStatus.Dead : CellStatus.Alive;
-        const updatedBoardData = JSON.parse(JSON.stringify(boardDataForTimer.current));
-        //this.setState((state) => ({ ...state, boardData: updatedBoardData }))
-        setBoardData(updatedBoardData);
-        //console.log('onClick2')
-    }*/
 
     /**
              * функция по обработке массива ячеек, на очередном тике жизни
@@ -546,10 +537,8 @@ const ControlComponent: React.FC = () => {
     return (
 
         <div data-testid="ControlComponent">
-            <StyledHeader>{isLogin && <StyledHeaderContent data-testid="HeadComponent">Привет, {userName}!<button onClick={() => { setIsLogin(false); }}>Выйти</button></StyledHeaderContent>}</StyledHeader>
-            {!isLogin
-                ? <LoginCompotent onClick={toggleStart} />
-                : <div>
+            <StyledHeader><StyledHeaderContent data-testid="HeadComponent">Привет, {token}!<BtnComponent onClick={ logout }>Выйти</BtnComponent></StyledHeaderContent></StyledHeader>
+            {<div>
                     
                     {/*<BoardComponent width={width} heigth={heigth} />*/}
                     <StyledBoardComponent width={width} heigth={heigth} boardData={boardData} loading={loading} error={error} errorText={errorText} 

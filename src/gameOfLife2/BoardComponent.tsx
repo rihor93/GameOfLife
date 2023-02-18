@@ -49,40 +49,7 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
         }
     },[boardData])
 
-    /*useEffect(() => {
-        const tt = timerType;
-
-        setTimerType('pause');
-
-        switch (boardType) {
-            case 'small':
-                setBoardStyle({height: 200, width:200});
-                setTimerType(tt);
-                return
-                case 'normal':
-                setBoardStyle({height: 400, width:400});
-                setTimerType(tt);
-                return
-                case 'big':
-                setBoardStyle({height: 800, width:800});
-                setTimerType(tt);
-                return
-            default:
-                return
-        }
-    }, [boardType]);*/
-
-
-
-
-
-
-
-
-    //useMemo(() => ({ test: "test" }), []);
-
     const onPersentToLoadChange = (event: { value: number }) => {
-        console.log(event.value);
         setPersentToLoad(event.value);
     }
 
