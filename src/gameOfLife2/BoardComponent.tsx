@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import BtnComponent from "./BtnComponent";
 import { BoardTypes, TimerTypes } from "./ControlComponent";
-import { StyledCellComponent } from "./style";
+import { Container, StyledCellComponent } from "./style";
 import { InputNumberWithArrows } from "./input/InputNumberWithArrows";
 import { Cell, CellStatus } from "./CellComponent";
 
 
 
 type BoardComponentProps = {
-    width: number, 
-    heigth: number, 
-    className?: string, 
-    loading: boolean, 
-    endWork: boolean, 
-    generation: number, 
-    timerType: TimerTypes, 
-    errorText: string, 
+    width: number,
+    heigth: number,
+    className?: string,
+    loading: boolean,
+    endWork: boolean,
+    generation: number,
+    timerType: TimerTypes,
+    errorText: string,
     error: boolean,
     boardData: Cell[],
     onCellClick: (id: number) => void,
@@ -39,7 +39,7 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
 
     const [persentToLoad, setPersentToLoad] = useState<number>(0);
 
-    useEffect(()=> {
+    useEffect(() => {
         let countDead = 0;
         if (boardData?.length > 0) {
             boardData.forEach((el) => { countDead = countDead + (el.status === CellStatus.Dead ? 1 : 0) });
@@ -47,7 +47,7 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
         } else {
             setPersent('0');
         }
-    },[boardData])
+    }, [boardData])
 
     const onPersentToLoadChange = (event: { value: number }) => {
         setPersentToLoad(event.value);
@@ -57,8 +57,12 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
 
         <div data-testid="boardcomponent" >
             {loading ? <div>Идёт загрузка данных с сервера</div> : endWork ? <div>Выполнение завершено, дальнейшее исполнение бессмыслено</div> :
-                <div>
-                    <div>Процент заполнения:<InputNumberWithArrows value={persentToLoad} onChange={onPersentToLoadChange} ><BtnComponent onClick={() => setPersentData(persentToLoad)/*setBoardType('small')*/}>Set</BtnComponent></InputNumberWithArrows></div>
+                <Container>
+                    <div>Процент заполнения:
+                        <InputNumberWithArrows value={persentToLoad} onChange={onPersentToLoadChange} >
+                            <BtnComponent onClick={() => setPersentData(persentToLoad)/*setBoardType('small')*/}>Set</BtnComponent>
+                        </InputNumberWithArrows>
+                    </div>
                     <div>Генерация:{generation}({timerType})</div>
                     <div>Заполнено:{persent}%</div>
                     <div>
@@ -71,7 +75,7 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
                         <BtnComponent onClick={() => setTimerType('slow')/*setBoardType('small')*/}>slow</BtnComponent>
                         <BtnComponent onClick={() => setTimerType('normal')}>normal</BtnComponent>
                         <BtnComponent onClick={() => setTimerType('fast')}>fast</BtnComponent>
-                        <BtnComponent  onClick={() => setTimerType('pause')}>pause</BtnComponent>
+                        <BtnComponent onClick={() => setTimerType('pause')}>pause</BtnComponent>
                     </div>
 
                     {/*<button onClick={this.tick}>Tick</button>*/}
@@ -87,7 +91,7 @@ const BoardComponent: React.FC<BoardComponentProps> = ({ width, heigth, classNam
 
                     </div>
 
-                </div>
+                </Container>
             }
         </div>
 

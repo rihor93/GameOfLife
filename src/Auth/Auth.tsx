@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import { NavigationState } from "../Navigation/types";
 import { useTokenContext } from "../TokenProvider";
 import BtnComponent from "../gameOfLife2/BtnComponent";
+import { Container } from "../gameOfLife2/style";
 
 
 const Auth: React.FC = () => {
@@ -20,14 +21,14 @@ const Auth: React.FC = () => {
 
     return (
 
-        <div className="cardBorder contentWrapper">
+        <Container>
             <div>Введите имя:
                 <input data-testid="loginInput" value={name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setName(e.target.value) }}></input>
             </div>
             <div>
-                <BtnComponent data-testid="btnStart" onClick={() => onClick(name)}>Старт!</BtnComponent>
+                {name.length > 0 && <BtnComponent data-testid="btnStart" onClick={() => onClick(name)}>Старт!</BtnComponent>}
             </div>
-        </div>
+        </Container>
 
     );
 }

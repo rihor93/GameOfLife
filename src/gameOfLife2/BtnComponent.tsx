@@ -1,4 +1,5 @@
 import React from "react"
+import { Button } from 'antd';
 
 export interface BtnProps {
     onClick: () => void,
@@ -8,7 +9,7 @@ export interface BtnProps {
 const BtnComponent: React.FC<BtnProps> = ({ children, onClick }) => {
     return (
 
-        <button onClick={onClick}>{children}</button>
+        <Button onClick={onClick}>{children}</Button>
 
     );
 }

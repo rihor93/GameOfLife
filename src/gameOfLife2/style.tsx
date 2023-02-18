@@ -3,6 +3,13 @@ import { baseTheme } from "../styles/theme";
 import BoardComponent from "./BoardComponent";
 import CellComponent, { CellStatus } from "./CellComponent";
 
+
+export const Container = styled.div`
+	text-align: center;
+	display: block;
+	margin: 0px auto;
+`
+
 export const StyledBoardComponent = styled(BoardComponent)`
 background: #000;
 margin: 0px auto;
