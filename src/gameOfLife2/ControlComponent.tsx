@@ -1,12 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import BoardComponent from "../gameOfLife2/BoardComponent";
 import LoginCompotent from "./LoginComponent";
-import styled from "styled-components";
-import { baseTheme } from "../styles/theme";
 import { StyledBoardComponent, StyledHeader, StyledHeaderContent } from "./style";
 import { Cell, CellStatus } from "./CellComponent";
 import { getServerDataCells } from "./server";
-import BtnComponent from "./BtnComponent";
 
 export type BoardTypes = 'small' | 'normal' | 'big'
 export type TimerTypes = 'slow' | 'normal' | 'fast' | 'pause'

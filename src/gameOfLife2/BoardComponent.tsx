@@ -1,15 +1,9 @@
-import { number } from "prop-types";
-import React, { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import styled, { StyledComponent } from "styled-components";
-import { TextStyled } from "../Tests/styles";
+import React, { useEffect, useState } from "react";
 import BtnComponent from "./BtnComponent";
-import CellComponent, { Cell, CellStatus } from "./CellComponent";
 import { BoardTypes, TimerTypes } from "./ControlComponent";
-import { getServerDataCells } from "./server";
 import { StyledCellComponent } from "./style";
-import {Input} from './input/input'
-import { InputNumber } from "./input/InputNumber";
 import { InputNumberWithArrows } from "./input/InputNumberWithArrows";
+import { Cell, CellStatus } from "./CellComponent";
 
 
 

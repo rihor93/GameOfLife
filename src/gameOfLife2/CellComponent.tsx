@@ -1,5 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
-import styled from "styled-components";
+import { memo } from "react";
 
 
 export interface Cell {

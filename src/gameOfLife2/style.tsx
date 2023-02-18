@@ -69,7 +69,7 @@ export const StyledCellComponent = styled(CellComponent)`
 	float: left;
   	border-radius: none;
     animation-timing-function: linear;
-	animation: ${props=> props.status === CellStatus.Alive ? alive : (props.status === CellStatus.AliveOld ? old : dead)} 1s 1 linear;
-	background: ${props=> props.status === CellStatus.Alive ? 'red' : (props.status === CellStatus.AliveOld ? 'yellow' : 'black')}
+	animation: ${props => props.status === CellStatus.Alive ? alive : (props.status === CellStatus.AliveOld ? old : dead)} 1s 1 linear;
+	background: ${props => props.status === CellStatus.Alive ? 'red' : (props.status === CellStatus.AliveOld ? 'yellow' : 'black')}
 
 `

@@ -9,7 +9,7 @@ export default {
   component: LoginComponent,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    
+
   },
 } as ComponentMeta<typeof LoginComponent>;
 
@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof LoginComponent> = (args: LoginComponentPro
 export const LoginComponentShow = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 LoginComponentShow.args = {
-    onClick: (name: string) => {alert('Вы ввели:' + name)}
+  onClick: (name: string) => { alert('Вы ввели:' + name) }
 };
