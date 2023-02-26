@@ -3,6 +3,6 @@ import App from './App';
 
 test('renders learn react link', async () => {
   render(<App />);
-  const allElements = screen.getAllByTestId('ControlComponent');
+  const allElements = screen.getAllByTestId('loginInput');
   expect(allElements).toHaveLength(1);
 });
